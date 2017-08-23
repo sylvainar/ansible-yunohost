@@ -1,0 +1,35 @@
+---
+- name: Install requirements
+  apt:
+    name:
+      - git
+      - dialog
+    state: present
+
+- name: Test if Yunohost is already installed
+  stat: path=/etc/yunohost/installed
+  register: yunohost_file_install
+
+- name: Download install script
+  get_url:
+    url: "{{ yunohost.install_script_url }}"
+    dest: /tmp/install_yunohost.sh
+    mode: 700
+  when: yunohost_file_install.stat.exists == False
+
+- name: Launch script
+  command: /tmp/install_yunohost.sh -a
+  when: yunohost_file_install.stat.exists == False
+
+- name: Launch postinsstall
+  shell: "
+    yunohost tools postinstall \
+      --domain {{ yunohost.domain }} \
+      --password {{ yunohost.password }} \
+      {% if yunohost.ignore_dyndns == True %} --ignore-dyndns {% endif %}
+      "
+  when: yunohost_file_install.stat.exists == False
+
+- name: Install certificates
+  shell: "yunohost domain cert-install"
+  when: yunohost_file_install.stat.exists == False

@@ -1,0 +1,11 @@
+yunohost:
+  # Link to the install script
+  install_script_url: https://raw.githubusercontent.com/YunoHost/install_script/master/install_yunohost
+  # The main domain
+  domain: mydomain.fr
+  # Yunohost admin password
+  password: MYINSECUREPWD_PLZ_OVERRIDE_THIS
+  # If you don't want to use a noho.st url
+  ignore_dyndns: False
+  # The list of apps you want to install (not working yet).
+  apps: ~
