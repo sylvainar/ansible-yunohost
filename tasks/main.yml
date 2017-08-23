@@ -33,3 +33,8 @@
 - name: Install certificates
   shell: "yunohost domain cert-install"
   when: yunohost_file_install.stat.exists == False
+
+- name: Install apps
+  include: app.yml app={{item}}
+  with_items: "{{ yunohost.apps }}"
+  when: yunohost.apps

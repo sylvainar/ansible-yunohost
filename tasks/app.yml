@@ -1,0 +1,8 @@
+---
+- name: Test if this app is already installed
+  stat: path={{ app.args.path }}
+  register: yunohost_app_installed
+
+- name: Install app
+  shell: yunohost app install {{ app.link }} --args {% for key, value in app.args.items() %}{{key}}={{value}}{% if not loop.last %}\&{% endif %}{% endfor %} >> ~/log.txt
+  when: yunohost_app_installed.stat.exists == False
