@@ -1,11 +1,45 @@
 galaxy_info:
   author: sylvainar
   description: Deploy Yunohost with Ansible
-
   license: GPL-v3
-
   min_ansible_version: 1.2
-
   galaxy_tags: [yunohost]
+  platforms:
+  - name: EL
+    versions:
+    - all
+  - name: GenericUNIX
+    versions:
+    - all
+  - name: Fedora
+    versions:
+    - all
+  - name: opensuse
+    versions:
+    - all
+  - name: Amazon
+    versions:
+    - all
+  - name: GenericBSD
+    versions:
+    - all
+  - name: FreeBSD
+    versions:
+    - all
+  - name: Ubuntu
+    versions:
+    - all
+  - name: SLES
+    versions:
+    - all
+  - name: GenericLinux
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - all
+  categories:
+    - cloud
+    - web
 
 dependencies: []
