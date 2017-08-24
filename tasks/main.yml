@@ -30,11 +30,14 @@
       "
   when: yunohost_file_install.stat.exists == False
 
+- name: Create domains
+  include: domains.yml
+  when: yunohost.extra_domains
+
 - name: Install certificates
-  shell: "yunohost domain cert-install"
-  when: yunohost_file_install.stat.exists == False
+  shell: yunohost domain cert-install
+  changed_when: False
 
 - name: Install apps
-  include: app.yml app={{item}}
-  with_items: "{{ yunohost.apps }}"
+  include: apps.yml
   when: yunohost.apps

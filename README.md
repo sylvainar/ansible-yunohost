@@ -16,17 +16,21 @@ Example of Variables:
 yunohost:
   # Link to the install script
   install_script_url: https://raw.githubusercontent.com/YunoHost/install_script/master/install_yunohost
-  # The main domain
+  # The main domain, then a list of other domains.
   domain: example.com
+  extra_domains:
+    - example2.com
+    - example3.com
   # Yunohost admin password
   password: MYINSECUREPWD_PLZ_OVERRIDE_THIS
   # If you don't want to use a noho.st url
   ignore_dyndns: False
   # The list of apps you want to install.
   apps:
-    - link: ttrss # It can be the name of an official app or a github link
-      args: # Provide here args. Path and domain are mandatory, other args depend of the app.
-        path: /var/www/ttrss
+    - label: Tiny Tiny RSS # Label is important, it's a reference for the Playbook.
+      link: ttrss # It can be the name of an official app or a github link
+      args: # Provide here args. Path and domain are mandatory, other args depend of the app (cf manifest.json of app).
+        path: /ttrss
         domain: example.com
 ```
 
@@ -48,7 +52,7 @@ Example Playbook
         update_cache: yes
 
   roles:
-     - { role: ansible-yunohost }
+     - { role: sylvainar.yunohost }
 ```
 
 License

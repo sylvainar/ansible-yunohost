@@ -1,0 +1,13 @@
+---
+- name: List currently installed domains
+  shell: yunohost domain list --output-as json
+  register: yunohost_installed_domains_raw
+  changed_when: False
+
+- name: Format json of domains
+  set_fact: yunohost_installed_domains="{{ yunohost_installed_domains_raw.stdout | from_json }}"
+
+- name: Create domains
+  shell: yunohost domain add {{ item }} --admin-password {{ yunohost.password }}
+  with_items: "{{ yunohost.extra_domains }}"
+  when: item not in yunohost_installed_domains.domains
