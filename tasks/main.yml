@@ -38,6 +38,10 @@
   shell: yunohost domain cert-install
   changed_when: False
 
+- name: Add users
+  include: users.yml
+  when: yunohost.users
+
 - name: Install apps
   include: apps.yml
   when: yunohost.apps
