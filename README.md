@@ -34,11 +34,11 @@ yunohost:
         domain: example.com
   # The list of users.
   users:
-    - name: admin
+    - name: user1
       pass: p@ssw0rd
-      firstname: admin
-      lastname: admin
-      mail: admin@example.com
+      firstname: Jane
+      lastname: Doe
+      mail: jane.doe@example.com
 ```
 
 Dependencies
