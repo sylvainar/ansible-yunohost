@@ -1,5 +1,5 @@
 yunohost:
-  install_script_url: https://raw.githubusercontent.com/YunoHost/install_script/master/install_yunohost
+  install_script_url: https://install.yunohost.org/
   domain: example.com
   extra_domains: ~
   password: MYINSECUREPWD_PLZ_OVERRIDE_THIS
