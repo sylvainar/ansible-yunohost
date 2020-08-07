@@ -1,0 +1,91 @@
+yunohost:
+  # Link to the install script
+  install_script_url: https://install.yunohost.org
+  # The main domain, then a list of other domains.
+  domain: "{{ main_domain }}"
+  extra_domains: 
+    - "{{ pad_domain }}"
+    - "{{ coin_domain }}"
+    - "{{ discourse_domain }}"
+    - "{{ site_domain }}"
+ # Yunohost admin password
+  password: "{{ yunohost_pass }}"
+  # If you don't want to use a noho.st url
+  ignore_dyndns: True
+
+  # The list of apps you want to install.
+  apps:
+    - label: CodiMd
+      link: codimd
+      args:
+        domain: "{{ pad_domain }}"
+        is_public: y
+
+    - label: Wiki
+      link: dokuwiki
+      args:
+        path: /wiki
+        domain: "{{ main_domain }}"
+        is_public: y
+        language: fr
+        admin: "{{ admin_yunohost_user }}"
+
+    - label: Mail
+      link: roundcube
+      args:
+        domain: "{{ main_domain }}"
+        path: /mail
+        with_cardav: y
+        with_enigma: y
+        language: fr
+
+    - label: Forum
+      link: discourse
+      args:
+        domain: "{{ discourse_domain }}"
+        path: /forum
+        admin:  "{{ admin_yunohost_user }}"
+        is_public: y
+        language: fr
+
+    - label: Site
+      link: grav
+      args:
+        domain: "{{ site_domain }}"
+        admin: "{{ admin_yunohost_user }}"
+        path: /
+        is_public: y
+        language: fr_FR
+#
+    - label: Coin
+      link: https://github.com/l3ibi/coin_ynh.git
+      args:
+        domain: "{{ coin_domain }}"
+        admin: "{{ admin_yunohost_user }}"
+        email: l3ibi@cametleon.me
+        isp_name: FAIbreizh
+        isp_site: //fai.bzh
+#    
+    - label: Nexcloud
+      link: nextcloud
+      args:
+        domain: "{{ main_domain }}"
+        path: /nextcloud
+        admin: "{{ admin_yunohost_user }}"
+        user_home: n
+
+
+  
+  # The list of users.
+  users:
+    - name: "{{ admin_yunohost_user }}"
+      pass: "{{ admin_yunohost_pass }}"
+      firstname: "{{ admin_yunohost_user }}"
+      lastname: "{{ admin_yunohost_user }}"
+      mail: "{{ admin_yunohost_user}}@{{main_domain }}"
+
+    - name: "{{ discourse_yunohost_user }}"
+      pass: "{{ discourse_yunohost_pass }}"
+      firstname: "{{ discourse_yunohost_user }}"
+      lastname:  "{{ discourse_yunohost_user }}"
+      mail: "{{ discourse_yunohost_user }}@{{ discourse_domain }}"
