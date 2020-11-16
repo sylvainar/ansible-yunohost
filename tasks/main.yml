@@ -34,6 +34,9 @@
   include: domains.yml
   when: yunohost.extra_domains
 
+- name: Run diagnosis # Required to install certificates
+  shell: yunohost diagnosis run
+
 - name: Install certificates
   shell: yunohost domain cert-install
   changed_when: False
