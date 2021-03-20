@@ -8,6 +8,6 @@
   set_fact: yunohost_installed_domains="{{ yunohost_installed_domains_raw.stdout | from_json }}"
 
 - name: Create domains
-  shell: yunohost domain add {{ item }} --admin-password {{ yunohost.password }}
+  shell: yunohost domain add {{ item }}
   with_items: "{{ yunohost.extra_domains }}"
   when: item not in yunohost_installed_domains.domains
