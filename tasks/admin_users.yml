@@ -9,5 +9,5 @@
 - name: Disable Password Authentication for ssh.usage
   ansible.builtin.replace:
     path: /etc/ssh/sshd_config
-    regex: PasswordAuthentication
+    regexp: PasswordAuthentication
     replace: 'PasswordAuthentication no\1' 
