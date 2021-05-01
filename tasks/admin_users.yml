@@ -11,3 +11,4 @@
     path: /etc/ssh/sshd_config
     regexp: PasswordAuthentication
     replace: 'PasswordAuthentication no\1' 
+  when: yunohost.nopassword == true
