@@ -1,13 +1,13 @@
 ---
 - name: List currently installed apps
-  shell: yunohost app map --output-as json
+  ansible.builtin.shell: yunohost app map --output-as json
   register: yunohost_installed_apps_raw
   changed_when: False
 
 - name: Format json of apps
-  set_fact: yunohost_installed_apps="{{ yunohost_installed_apps_raw.stdout | from_json }}"
+  ansible.builtin.set_fact: yunohost_installed_apps="{{ yunohost_installed_apps_raw.stdout | from_json }}"
 
 - name: Install apps
-  shell: yunohost app install {{ item.link }} --label "{{ item.label }}" --args "{% for key, value in item.args.items() %}{{key}}={{value}}{% if not loop.last %}&{% endif %}{% endfor %}"
+  ansible.builtin.shell: yunohost app install {{ item.link }} --label "{{ item.label }}" --args "{% for key, value in item.args.items() %}{{key}}={{value}}{% if not loop.last %}&{% endif %}{% endfor %}"
   with_items: "{{ yunohost.apps }}"
   when: item.label not in yunohost_installed_apps.values()

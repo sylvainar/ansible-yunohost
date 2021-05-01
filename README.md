@@ -1,7 +1,7 @@
 ansible-yunohost
 =========
 
-Deploy Yunohost with Ansible !
+Deploy Yunohost with Ansible!
 
 Requirements
 ------------
@@ -54,7 +54,7 @@ Example Playbook
   remote_user: root
   pre_tasks:
     - name: Update all packages and index
-      apt:
+      ansible.builtin.apt:
         upgrade: dist
         update_cache: yes
 
