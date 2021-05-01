@@ -12,7 +12,7 @@
     yunohost user create {{ item.name }} \
     -f {{ item.firstname }} \
     -l {{ item.lastname }} \
-    -m {{ item.mail }} \
+    -d {{ item.domain }} \
     -p {{ item.pass }}
   loop: "{{ yunohost.users }}"
   when: item.name not in yunohost_registered_users.users.keys()
