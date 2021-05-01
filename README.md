@@ -32,13 +32,18 @@ yunohost:
       args: # Provide here args. Path and domain are mandatory, other args depend of the app (cf manifest.json of app).
         path: /ttrss
         domain: example.com
-  # The list of users.
-  users:
-    - name: user1
+  # The list of frontend users. 
+  users: 
+    - name: user1 # user which uses the default domain for its account
       pass: p@ssw0rd
       firstname: Jane
       lastname: Doe
-      mail: jane.doe@example.com
+      domain: {{ domain }} 
+    - name: user1 # user which uses the first extra_domain for its account
+      pass: p@ssw0rd
+      firstname: Jane
+      lastname: Doe
+      domain: {{ extra_domain.[1] }} 
 ```
 
 Dependencies
