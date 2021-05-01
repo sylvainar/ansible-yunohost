@@ -1,18 +1,18 @@
 ---
 - name: List users
-  shell: yunohost user list --output-as json
+  ansible.builtin.shell: yunohost user list --output-as json
   register: yunohost_registered_users_raw
   changed_when: False
 
 - name: Format json of users
-  set_fact: yunohost_registered_users="{{ yunohost_registered_users_raw.stdout | from_json }}"
+  ansible.builtin.set_fact: yunohost_registered_users="{{ yunohost_registered_users_raw.stdout | from_json }}"
 
 - name: Create missing users
-  shell: |
+  ansible.builtin.shell: |
     yunohost user create {{ item.name }} \
     -f {{ item.firstname }} \
     -l {{ item.lastname }} \
     -m {{ item.mail }} \
     -p {{ item.pass }}
-  with_items: "{{ yunohost.users }}"
+  loop: "{{ yunohost.users }}"
   when: item.name not in yunohost_registered_users.users.keys()
