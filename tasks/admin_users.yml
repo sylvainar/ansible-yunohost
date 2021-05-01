@@ -1,0 +1,13 @@
+---
+- name: add sshkey for admin user:
+  ansible.posix.authorized_key:
+    user: "{{ item.name }}"
+    state: present
+    key: "{{ item.key }}"
+  loop: "{{ yunohost.admin_users }}"
+
+- name: Disable Password Authentication for ssh.usage
+  ansible.builtin.replace:
+    path: /etc/ssh/sshd_config
+    regex: PasswordAuthentication
+    replace: 'PasswordAuthentication no\1' 

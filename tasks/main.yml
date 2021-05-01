@@ -45,6 +45,10 @@
   ansible.builtin.include: users.yml
   when: yunohost.users
 
+- name: Add ssh for admin user
+  ansible.builtin.include: admin_users.yml
+  when: yunohost.admin_users is defined
+
 - name: Install apps
   ansible.builtin.include: apps.yml
   when: yunohost.apps
