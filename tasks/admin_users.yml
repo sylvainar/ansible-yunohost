@@ -1,5 +1,5 @@
 ---
-- name: add sshkey for admin user:
+- name: add sshkey for admin user
   ansible.posix.authorized_key:
     user: "{{ item.name }}"
     state: present
