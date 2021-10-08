@@ -6,4 +6,4 @@ yunohost:
   ignore_dyndns: False
   apps: ~
   users: ~
-  admin_users: 
+
