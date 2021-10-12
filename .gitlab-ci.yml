@@ -8,3 +8,8 @@ include:
     file:
       - '/templates/stages.yml'
       - '/templates/job/ansible/lint.yml'
+
+# No playbook in this repo
+ansible-syntax-check:
+  rules:
+    - when: never
