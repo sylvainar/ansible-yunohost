@@ -1,9 +1,26 @@
-yunohost:
-  install_script_url: https://install.yunohost.org/
-  domain: example.com
-  extra_domains: ~
-  password: MYINSECUREPWD_PLZ_OVERRIDE_THIS
-  ignore_dyndns: False
-  apps: ~
-  users: ~
+---
+# Debian 10 script only. 
+ynh_install_script_url: https://install.yunohost.org
 
+ynh_admin_password: MYINSECUREPWD_PLZ_OVERRIDE_THIS
+
+# The list of Yunohost domains.
+ynh_main_domain: domain.tld
+ynh_extra_domains: null
+ynh_ignore_dyndns_server: False
+
+# The list of Yunohost users.
+ynh_users: null
+  # - name: user1
+  #   pass: p@ssw0rd
+  #   firstname: Jane
+  #   lastname: Doe
+  #   mail_domain: domain.tld
+
+# The list of Yunohost apps.
+ynh_apps: null
+  # - label: Tiny Tiny RSS # Label is important, it's a reference for the Playbook.
+  #   link: ttrss # It can be the name of an official ynh app or a git repo link
+  #   args: # Provide args here. Domain and path are mandatory, other args depend on the app (cf manifest.json of app).
+  #     domain: domain.tld
+  #     path: /ttrss
