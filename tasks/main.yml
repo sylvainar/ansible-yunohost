@@ -30,7 +30,7 @@
   when: ynh_file_install.stat.exists == False
 
 - name: Create extra domains
-  ansible.builtin.include: domains.yml
+  ansible.builtin.include_tasks: domains.yml
   when: ynh_extra_domains
 
 - name: Run first Yunohost diagnosis
@@ -41,9 +41,9 @@
   changed_when: False
 
 - name: Add Yunohost users
-  ansible.builtin.include: users.yml
+  ansible.builtin.include_tasks: users.yml
   when: ynh_users
 
 - name: Install Yunohost apps
-  ansible.builtin.include: apps.yml
+  ansible.builtin.include_tasks: apps.yml
   when: ynh_apps
