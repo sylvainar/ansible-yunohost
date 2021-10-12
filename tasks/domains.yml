@@ -1,6 +1,6 @@
 ---
 - name: List currently installed domains
-  ansible.builtin.shell: yunohost domain list --output-as json
+  ansible.builtin.command: yunohost domain list --output-as json
   register: ynh_installed_domains_raw
   changed_when: False
 
@@ -8,6 +8,6 @@
   ansible.builtin.set_fact: ynh_installed_domains="{{ ynh_installed_domains_raw.stdout | from_json }}"
 
 - name: Create domains
-  ansible.builtin.shell: yunohost domain add {{ item }}
+  ansible.builtin.command: yunohost domain add {{ item }}
   with_items: "{{ ynh_extra_domains }}"
   when: item not in ynh_installed_domains.domains
