@@ -8,43 +8,42 @@
 
 - name: Test if Yunohost is already installed
   ansible.builtin.stat: path=/etc/yunohost/installed
-  register: yunohost_file_install
+  register: ynh_file_install
 
-- name: Download install script
+- name: Download Yunohost install script
   ansible.builtin.get_url:
-    url: "{{ yunohost.install_script_url }}"
+    url: "{{ ynh_install_script_url }}"
     dest: /tmp/install_yunohost.sh
     mode: 700
-  when: yunohost_file_install.stat.exists == False
+  when: ynh_file_install.stat.exists == False
 
-- name: Launch script
+- name: Launch Yunohost install script
   ansible.builtin.command: /tmp/install_yunohost.sh -a
-  when: yunohost_file_install.stat.exists == False
+  when: ynh_file_install.stat.exists == False
 
-- name: Launch postinsstall
+- name: Launch Yunohost postinstall
   ansible.builtin.shell: "
     yunohost tools postinstall \
-      --domain {{ yunohost.domain }} \
-      --password {{ yunohost.password }} \
-      {% if yunohost.ignore_dyndns == True %} --ignore-dyndns {% endif %}
-      "
-  when: yunohost_file_install.stat.exists == False
+      --domain {{ ynh_main_domain }} \
+      --password {{ ynh_admin_password }} \
+      {% if ynh_ignore_dyndns_server == True %} --ignore-dyndns {% endif %}"
+  when: ynh_file_install.stat.exists == False
 
-- name: Create domains
+- name: Create extra domains
   ansible.builtin.include: domains.yml
-  when: yunohost.extra_domains
+  when: ynh_extra_domains
 
-- name: Run diagnosis # Required to install certificates
+- name: Run first Yunohost diagnosis
   ansible.builtin.shell: yunohost diagnosis run
 
-- name: Install certificates
+- name: Install domain certificates
   ansible.builtin.shell: yunohost domain cert-install
   changed_when: False
 
-- name: Add users
+- name: Add Yunohost users
   ansible.builtin.include: users.yml
-  when: yunohost.users
+  when: ynh_users
 
-- name: Install apps
+- name: Install Yunohost apps
   ansible.builtin.include: apps.yml
-  when: yunohost.apps
+  when: ynh_apps

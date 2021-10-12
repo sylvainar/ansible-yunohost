@@ -1,16 +1,16 @@
 # ansible-yunohost
-[🇫🇷 French version](README-FR.md)
+[🇬🇧 English version](README.md)
 
-Deploy Yunohost with Ansible!
+Deployez Yunohost avec Ansible !
 
-## Requirements
+## Prérequis
 
-None.
+Aucun.
 
 ## Role Variables
-Default variables are available in `default/main.yml` however it is necessary to override them according to your needs for Yunohost domains, users and apps.
+Les variables par défaut sont disponibles dans `default/main.yml` cependant il est nécessaire de les surcharger selon vos besoins en termes de domaines, d'utilisateurs et d'applications sur Yunohost.
 
-## Example of Variables
+## Exemple de Variables
 ```yml
 ---
 # Debian 10 script only.
@@ -50,12 +50,11 @@ ynh_apps:
       admin: user1 
       is_public: yes
 ```
+## Dépendances
 
-## Dependencies
+Aucune.
 
-None.
-
-## Example Playbook
+## Exemple de Playbook
 ```yml
 ---
 - name: Install Yunohost on Debian Server
