@@ -1,0 +1,15 @@
+---
+# -*- coding: utf-8 -*-
+# Doc: https://docs.gitlab.com/ce/ci/yaml/#include
+
+include:
+  - project: 'froggit/ci/gci-tpl'
+    ref: 0.0.1
+    file:
+      - '/templates/stages.yml'
+      - '/templates/job/ansible/lint.yml'
+
+# No playbook in this repo
+ansible-syntax-check:
+  rules:
+    - when: never
