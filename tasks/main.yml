@@ -22,11 +22,11 @@
   when: ynh_file_install.stat.exists == False
 
 - name: Launch Yunohost postinstall
-  ansible.builtin.shell: "
+  ansible.builtin.command:
     yunohost tools postinstall \
-      --domain {{ ynh_main_domain }} \
-      --password {{ ynh_admin_password }} \
-      {% if ynh_ignore_dyndns_server == True %} --ignore-dyndns {% endif %}"
+      --domain "{{ ynh_main_domain }}" \
+      --password "{{ ynh_admin_password }}" \
+      {% if ynh_ignore_dyndns_server == True %} --ignore-dyndns {% endif %}
   when: ynh_file_install.stat.exists == False
 
 - name: Create extra domains
@@ -34,10 +34,10 @@
   when: ynh_extra_domains
 
 - name: Run first Yunohost diagnosis
-  ansible.builtin.shell: yunohost diagnosis run
+  ansible.builtin.command: yunohost diagnosis run
 
 - name: Install domain certificates
-  ansible.builtin.shell: yunohost domain cert-install
+  ansible.builtin.command: yunohost domain cert-install
   changed_when: False
 
 - name: Add Yunohost users
