@@ -10,7 +10,6 @@
 - name: Install yunohost apps
   ansible.builtin.command: yunohost app install {{ item.link }} \
      --label "{{ item.label }}" \
-     --args "{% for key, value in item.args.items() %}{{ key }}={{ value 
-    }}{% if not loop.last %}&{% endif %}{% endfor %}"
+     --args "{% for key, value in item.args.items() %}{{ key }}={{ value }}{% if not loop.last %}&{% endif %}{% endfor %}"
   with_items: "{{ ynh_apps }}"
   when: item.label not in ynh_installed_apps.values()

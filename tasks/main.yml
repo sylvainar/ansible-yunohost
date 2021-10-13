@@ -15,19 +15,19 @@
     url: "{{ ynh_install_script_url }}"
     dest: /tmp/install_yunohost.sh
     mode: 700
-  when: ynh_file_install.stat.exists == False
+  when: not ynh_file_install.stat.exists
 
 - name: Launch Yunohost install script
   ansible.builtin.command: /tmp/install_yunohost.sh -a
-  when: ynh_file_install.stat.exists == False
+  when: not ynh_file_install.stat.exists
 
 - name: Launch Yunohost postinstall
   ansible.builtin.command:
     yunohost tools postinstall \
       --domain "{{ ynh_main_domain }}" \
       --password "{{ ynh_admin_password }}" \
-      {% if ynh_ignore_dyndns_server == True %} --ignore-dyndns {% endif %}
-  when: ynh_file_install.stat.exists == False
+      {% if ynh_ignore_dyndns_server %} --ignore-dyndns {% endif %}
+  when: not ynh_file_install.stat.exists
 
 - name: Create extra domains
   ansible.builtin.include_tasks: domains.yml
@@ -35,6 +35,7 @@
 
 - name: Run first Yunohost diagnosis
   ansible.builtin.command: yunohost diagnosis run
+  when: not ynh_file_install.stat.exists
 
 - name: Install domain certificates
   ansible.builtin.command: yunohost domain cert-install
