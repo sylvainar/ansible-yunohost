@@ -19,8 +19,8 @@ ynh_users: null
 
 # The list of Yunohost apps.
 ynh_apps: null
-  # - label: Tiny Tiny RSS # Label is important, it's a reference for the Playbook.
-  #   link: ttrss # It can be the name of an official ynh app or a git repo link
-  #   args: # Provide args here. Domain and path are mandatory, other args depend on the app (cf manifest.json of app).
+  # - label: Tiny Tiny RSS
+  #   link: ttrss
+  #   args:
   #     domain: domain.tld
   #     path: /ttrss
