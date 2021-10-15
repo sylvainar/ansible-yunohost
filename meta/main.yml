@@ -1,9 +1,10 @@
 galaxy_info:
   role_name: yunohost
-  author: sylvainar
+  author: lydra
   description: Deploy Yunohost with Ansible
   license: GPL-v3
   min_ansible_version: 2.10
+  github_branch: main
   platforms:
   - name: Debian
     versions:
