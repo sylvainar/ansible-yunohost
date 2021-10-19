@@ -117,4 +117,6 @@ None.
 
 ## License
 
-GPL-3.0
+[![ansible-yunohost Copyright 2021 Lydra](https://www.gnu.org/graphics/gplv3-with-text-136x68.png)](https://choosealicense.com/licenses/gpl-3.0/)
+
+**ansible-yunohost** is maintained by [Lydra](https://lydra.fr/) and released under the GPL3 license.
