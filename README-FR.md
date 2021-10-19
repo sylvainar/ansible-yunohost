@@ -113,9 +113,11 @@ Aucune.
         update_cache: yes
     
   roles:
-    - ansible-yunohost
+    - lydra.yunohost
 ```
 
 ## License
 
-GPL-3.0
+[![ansible-yunohost Copyright 2021 Lydra](https://www.gnu.org/graphics/gplv3-with-text-136x68.png)](https://choosealicense.com/licenses/gpl-3.0/)
+
+**ansible-yunohost** est maintenu par [Lydra](https://lydra.fr/) et publié sous la licence GPL3.
