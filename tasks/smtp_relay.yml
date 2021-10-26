@@ -18,57 +18,13 @@
 #                                                                             #
 #-----------------------------------------------------------------------------#
 
-- name: Install requirements
-  ansible.builtin.apt:
-    name:
-      - git
-      - dialog
-    state: present
-
-- name: Test if Yunohost is already installed
-  ansible.builtin.stat: path=/etc/yunohost/installed
-  register: ynh_file_install
-
-- name: Download Yunohost install script
-  ansible.builtin.get_url:
-    url: "{{ ynh_install_script_url }}"
-    dest: /tmp/install_yunohost.sh
-    mode: 700
-  when: not ynh_file_install.stat.exists
-
-- name: Launch Yunohost install script
-  ansible.builtin.command: /tmp/install_yunohost.sh -a
-  when: not ynh_file_install.stat.exists
-
-- name: Launch Yunohost postinstall
+- name: Get current SMTP settings
   ansible.builtin.command:
-    yunohost tools postinstall \
-      --domain "{{ ynh_main_domain }}" \
-      --password "{{ ynh_admin_password }}" \
-      {% if ynh_ignore_dyndns_server %} --ignore-dyndns {% endif %}
-  when: not ynh_file_install.stat.exists
-
-- name: Create extra domains
-  ansible.builtin.include_tasks: domains.yml
-  when: ynh_extra_domains
-
-- name: Run first Yunohost diagnosis
-  ansible.builtin.command: yunohost diagnosis run
-  when: not ynh_file_install.stat.exists
-
-- name: Install domain certificates
-  ansible.builtin.command: yunohost domain cert-install
+    "yunohost settings get smtp.relay.{{ item.key }}"
+  register: _ynh_smtp_current_values
   changed_when: False
 
-- name: Configure SMTP relay
-  ansible.builtin.include_tasks: smtp_relay.yml
-  loop: "{{ ynh_smtp_relay | dict2items }}"
-  when: item.value
-
-- name: Add Yunohost users
-  ansible.builtin.include_tasks: users.yml
-  when: ynh_users
-
-- name: Install Yunohost apps
-  ansible.builtin.include_tasks: apps.yml
-  when: ynh_apps
+- name: Set new SMTP settings
+  ansible.builtin.command:
+    "yunohost settings set smtp.relay.{{ item.key }} -v {{ item.value }}"
+  when: _ynh_smtp_current_values.stdout != item.value

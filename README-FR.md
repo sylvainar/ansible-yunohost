@@ -31,7 +31,7 @@ ynh_install_script_url: https://install.yunohost.org
 ynh_admin_password: MYINSECUREPWD_PLZ_OVERRIDE_THIS
 ```
 
--`ynh_install_script_url` est le script d'installation des packages Yunohost, par défaut c'est le script officiel. Yunohost ne s'installe que sur Debian 10.
+- `ynh_install_script_url` est le script d'installation des packages Yunohost, par défaut c'est le script officiel. Yunohost ne s'installe que sur Debian 10.
 - `ynh_admin_password` est le mot de passe permettant d'accéder à l’interface d’administration du serveur.
 
 ### Gestion des domaines
@@ -48,6 +48,19 @@ ynh_ignore_dyndns_server: False
 - `ynh_main_domain` correspond au domaine principal qui permet l’accès au serveur ainsi qu’au portail d’authentification des utilisateurs. On peut se contenter d'un nom de domaine qui nous appartient ou en utiliser un en .nohost.me / .noho.st / .ynh.fr (plus d'infos [ici](https://yunohost.org/fr/install/hardware:vps_debian)).
 - `ynh_extra_domains` sont des sous-domaines optionnels. Ils permettent d'installer une application par sous-domaine (plus d'infos [ici](https://yunohost.org/fr/dns_subdomains)).
 - `ynh_ignore_dyndns_server` permet d'enregistrer les domaines avec un service de DNS dynamique (plus d'infos [ici](https://yunohost.org/fr/dns_dynamicip)).
+
+### Configuration d'un relais SMTP
+
+```yml
+# paramètres personnalisés du relais SMTP
+ynh_smtp_relay:
+    host: smtp.domain.tld
+    port: 25
+    user: user1
+    password: Pa$$w0rd
+```
+Yunohost possède son propre serveur SMTP natif mais il est aussi possible de configurer Yunohost pour qu'il utilise un relais SMTP à la place. 
+Pour faire cela, créez la variable `ynh_smtp_relay` et mettez vos propres valeurs. Vous pouvez en apprendre plus sur les relais SMTP [ici](https://yunohost.org/fr/administrate/specific_use_cases/email_relay).
 
 ### Gestion des utilisateurs
 
