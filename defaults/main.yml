@@ -36,6 +36,19 @@ ynh_users: null
   #   lastname: Doe
   #   mail_domain: domain.tld
 
+# Do not touch this variable
+# Just to have dict default value
+ynh_smtp_relay:
+  value: null
+
+# SMTP custom settings (Only override if you need a SMTP relay)
+# Example:
+# ynh_smtp_relay:
+    # host: smtp.domain.tld
+    # port: "25"
+    # user: user1
+    # password: Pa$$w0rd
+
 # The list of Yunohost apps.
 ynh_apps: null
   # - label: Tiny Tiny RSS

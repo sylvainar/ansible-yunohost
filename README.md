@@ -49,6 +49,20 @@ ynh_ignore_dyndns_server: False
 - `ynh_extra_domains` are optional and allow you to install one app per subdomain (more info [here](https://yunohost.org/en/administrate/specific_use_cases/domains/dns_subdomains)).
 - `ynh_ignore_dyndns_server` allow to register domains with a Dynamic DNS service (more info [here](https://yunohost.org/en/dns_dynamicip)).
 
+### SMTP relay configuration
+
+```yml
+# SMTP custom settings
+ynh_smtp_relay:
+    host: smtp.domain.tld
+    port: 25
+    user: user1
+    password: Pa$$w0rd
+```
+
+There is a built-in SMTP server on Yunohost but you can also set up Yunohost to use a SMTP relay instead.
+In order to do so, create the `ynh_smtp_relay` variable and provide your own values. You can learn more about SMTP relay [here](https://yunohost.org/en/administrate/specific_use_cases/email_relay).
+
 ### User management
 
 ```yml
