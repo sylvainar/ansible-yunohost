@@ -56,3 +56,10 @@ ynh_apps: null
   #   args:
   #     domain: domain.tld
   #     path: /ttrss
+  #   post_install:
+  #     - src: "templates/file.sh.j2"
+  #       dest: "/tmp/script.sh"
+  #       type: script
+  #       owner: ttrss # Only provide if different from app name
+  #       group: ttrss # Only provide if different from www-data
+
