@@ -1,13 +1,34 @@
 ---
+#-----------------------------------------------------------------------------#
+# ansible-yunohost allows to deploy Yunohost using Ansible                    #
+# Copyright 2021-2021 Lydra https://www.lydra.fr/                             #
+#                                                                             #
+# this program is free software: you can redistribute it and/or modify        #
+# it under the terms of the GNU General Public License as published by        #
+# the Free Software Foundation, either version 3 of the License, or           #
+# (at your option) any later version.                                         #
+#                                                                             #
+# this program is distributed in the hope that it will be useful,             #
+# but WITHOUT ANY WARRANTY; without even the implied warranty of              #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                #
+# GNU General Public License for more details.                                #
+#                                                                             #
+# You should have received a copy of the GNU General Public License           #
+# along with this program. If not, see <http://www.gnu.org/licenses/>.        #
+#                                                                             #
+#-----------------------------------------------------------------------------#
+
 - name: List currently installed apps
-  ansible.builtin.shell: yunohost app map --output-as json
-  register: yunohost_installed_apps_raw
+  ansible.builtin.command: yunohost app map --output-as json
+  register: ynh_installed_apps_raw
   changed_when: False
 
 - name: Format json of apps
-  ansible.builtin.set_fact: yunohost_installed_apps="{{ yunohost_installed_apps_raw.stdout | from_json }}"
+  ansible.builtin.set_fact: ynh_installed_apps="{{ ynh_installed_apps_raw.stdout | from_json }}"
 
-- name: Install apps
-  ansible.builtin.shell: yunohost app install {{ item.link }} --label "{{ item.label }}" --args "{% for key, value in item.args.items() %}{{key}}={{value}}{% if not loop.last %}&{% endif %}{% endfor %}"
-  with_items: "{{ yunohost.apps }}"
-  when: item.label not in yunohost_installed_apps.values()
+- name: Install yunohost apps and perform post-install
+  ansible.builtin.include_tasks: app.yml
+  loop: "{{ ynh_apps }}"
+  loop_control:
+    loop_var: ynh_app
+  when: ynh_app.label not in ynh_installed_apps.values()

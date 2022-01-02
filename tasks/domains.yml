@@ -1,13 +1,32 @@
 ---
+#-----------------------------------------------------------------------------#
+# ansible-yunohost allows to deploy Yunohost using Ansible                    #
+# Copyright 2021-2021 Lydra https://www.lydra.fr/                             #
+#                                                                             #
+# this program is free software: you can redistribute it and/or modify        #
+# it under the terms of the GNU General Public License as published by        #
+# the Free Software Foundation, either version 3 of the License, or           #
+# (at your option) any later version.                                         #
+#                                                                             #
+# this program is distributed in the hope that it will be useful,             #
+# but WITHOUT ANY WARRANTY; without even the implied warranty of              #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                #
+# GNU General Public License for more details.                                #
+#                                                                             #
+# You should have received a copy of the GNU General Public License           #
+# along with this program. If not, see <http://www.gnu.org/licenses/>.        #
+#                                                                             #
+#-----------------------------------------------------------------------------#
+
 - name: List currently installed domains
-  ansible.builtin.shell: yunohost domain list --output-as json
-  register: yunohost_installed_domains_raw
+  ansible.builtin.command: yunohost domain list --output-as json
+  register: ynh_installed_domains_raw
   changed_when: False
 
 - name: Format json of domains
-  ansible.builtin.set_fact: yunohost_installed_domains="{{ yunohost_installed_domains_raw.stdout | from_json }}"
+  ansible.builtin.set_fact: ynh_installed_domains="{{ ynh_installed_domains_raw.stdout | from_json }}"
 
 - name: Create domains
-  ansible.builtin.shell: yunohost domain add {{ item }}
-  with_items: "{{ yunohost.extra_domains }}"
-  when: item not in yunohost_installed_domains.domains
+  ansible.builtin.command: yunohost domain add {{ item }}
+  with_items: "{{ ynh_extra_domains }}"
+  when: item not in ynh_installed_domains.domains

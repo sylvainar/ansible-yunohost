@@ -18,20 +18,38 @@
 #                                                                             #
 #-----------------------------------------------------------------------------#
 
-- name: List users
-  ansible.builtin.command: yunohost user list --output-as json
-  register: ynh_registered_users_raw
+# Installation part
+- name: Install yunohost apps
+  ansible.builtin.command: yunohost app install {{ ynh_app.link }} \
+     --label "{{ ynh_app.label }}" \
+     --args "{% for key, value in ynh_app.args.items() %}{{ key }}={{ value }}{% if not loop.last %}&{% endif %}{% endfor %}"
   changed_when: False
 
-- name: Format json of users
-  ansible.builtin.set_fact: ynh_registered_users="{{ ynh_registered_users_raw.stdout | from_json }}"
+# Post-installation part
+- name: Create post-install template
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default(ynh_app.link) }}"
+    group: "{{ item.group | default('www-data') }}"
+    mode: "{{ (item.type == 'script') | ternary('740', '660') }}"
+  loop: "{{ ynh_app.post_install|default([]) }}"
+  when: ynh_app.post_install
 
-- name: Create missing Yunohost users
-  ansible.builtin.command:
-    yunohost user create "{{ item.name }}" \
-    -f "{{ item.firstname }}" \
-    -l "{{ item.lastname }}" \
-    -d "{{ item.mail_domain }}" \
-    -p "{{ item.pass }}"
-  loop: "{{ ynh_users }}"
-  when: item.name not in ynh_registered_users.users.keys()
+- name: Launch post-install script
+  ansible.builtin.command: "{{ ynh_app_post_install.dest }}"
+  args:
+    chdir: /tmp/
+  loop: "{{ ynh_app.post_install|default([]) }}"
+  loop_control:
+    loop_var: ynh_app_post_install
+  when: ynh_app_post_install.type == "script"
+
+- name: Remove script after execution
+  ansible.builtin.file:
+    path: "{{ ynh_app_post_install.dest }}"
+    state: absent
+  loop: "{{ ynh_app.post_install|default([]) }}"
+  loop_control:
+    loop_var: ynh_app_post_install
+  when: ynh_app_post_install.type == "script"
