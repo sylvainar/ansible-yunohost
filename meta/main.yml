@@ -1,14 +1,17 @@
+---
 galaxy_info:
-  author: sylvainar
+  role_name: yunohost
+  author: lydra
   description: Deploy Yunohost with Ansible
   license: GPL-v3
-  min_ansible_version: 1.2
-  galaxy_tags: [yunohost]
+  min_ansible_version: 2.10
+  github_branch: main
   platforms:
   - name: Debian
     versions:
-      - jessie
-  categories:
+      - buster
+  galaxy_tags:
+    - yunohost
     - cloud
     - web
 

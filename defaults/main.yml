@@ -18,20 +18,48 @@
 #                                                                             #
 #-----------------------------------------------------------------------------#
 
-- name: List users
-  ansible.builtin.command: yunohost user list --output-as json
-  register: ynh_registered_users_raw
-  changed_when: False
+# Debian 10 script only. 
+ynh_install_script_url: https://install.yunohost.org
 
-- name: Format json of users
-  ansible.builtin.set_fact: ynh_registered_users="{{ ynh_registered_users_raw.stdout | from_json }}"
+ynh_admin_password: MYINSECUREPWD_PLZ_OVERRIDE_THIS
 
-- name: Create missing Yunohost users
-  ansible.builtin.command:
-    yunohost user create "{{ item.name }}" \
-    -f "{{ item.firstname }}" \
-    -l "{{ item.lastname }}" \
-    -d "{{ item.mail_domain }}" \
-    -p "{{ item.pass }}"
-  loop: "{{ ynh_users }}"
-  when: item.name not in ynh_registered_users.users.keys()
+# The list of Yunohost domains.
+ynh_main_domain: domain.tld
+ynh_extra_domains: null
+ynh_ignore_dyndns_server: False
+
+# The list of Yunohost users.
+ynh_users: null
+  # - name: user1
+  #   pass: p@ssw0rd
+  #   firstname: Jane
+  #   lastname: Doe
+  #   mail_domain: domain.tld
+
+# Do not touch this variable
+# Just to have dict default value
+ynh_smtp_relay:
+  value: null
+
+# SMTP custom settings (Only override if you need a SMTP relay)
+# Example:
+# ynh_smtp_relay:
+    # host: smtp.domain.tld
+    # port: "25"
+    # user: user1
+    # password: Pa$$w0rd
+
+# The list of Yunohost apps.
+ynh_apps: null
+  # - label: Tiny Tiny RSS
+  #   link: ttrss
+  #   args:
+  #     domain: domain.tld
+  #     path: /ttrss
+  #   post_install:
+  #     - src: "templates/file.sh.j2"
+  #       dest: "/tmp/script.sh"
+  #       type: script
+  #       owner: ttrss # Only provide if different from app name
+  #       group: ttrss # Only provide if different from www-data
+

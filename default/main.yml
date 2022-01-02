@@ -1,8 +1,0 @@
-yunohost:
-  install_script_url: https://install.yunohost.org/
-  domain: example.com
-  extra_domains: ~
-  password: MYINSECUREPWD_PLZ_OVERRIDE_THIS
-  ignore_dyndns: False
-  apps: ~
-  users: ~

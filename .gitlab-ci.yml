@@ -18,20 +18,17 @@
 #                                                                             #
 #-----------------------------------------------------------------------------#
 
-- name: List users
-  ansible.builtin.command: yunohost user list --output-as json
-  register: ynh_registered_users_raw
-  changed_when: False
+# -*- coding: utf-8 -*-
+# Doc: https://docs.gitlab.com/ce/ci/yaml/#include
 
-- name: Format json of users
-  ansible.builtin.set_fact: ynh_registered_users="{{ ynh_registered_users_raw.stdout | from_json }}"
+include:
+  - project: 'froggit/ci/gci-tpl'
+    ref: 0.0.1
+    file:
+      - '/templates/stages.yml'
+      - '/templates/job/ansible/lint.yml'
 
-- name: Create missing Yunohost users
-  ansible.builtin.command:
-    yunohost user create "{{ item.name }}" \
-    -f "{{ item.firstname }}" \
-    -l "{{ item.lastname }}" \
-    -d "{{ item.mail_domain }}" \
-    -p "{{ item.pass }}"
-  loop: "{{ ynh_users }}"
-  when: item.name not in ynh_registered_users.users.keys()
+# No playbook in this repo
+ansible-syntax-check:
+  rules:
+    - when: never
